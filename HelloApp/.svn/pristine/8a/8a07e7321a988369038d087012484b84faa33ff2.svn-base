@@ -1,0 +1,75 @@
+<!DOCTYPE html>	
+<html>	
+<head>	
+	<meta charset="utf-8">	
+	<title>frame</title>	
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>	
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">	
+	
+	<link rel="stylesheet" type="text/css" href="../css/icon/iconfont.css" />
+	<style>	
+		a,div,img,button,input,textarea{-webkit-tap-highlight-color:rgba(255,255,255,0);}
+		#return_page{position:fixed;top:0px;left:5px;width:20px;height:20px;}
+		#head_img{width:100%;height:100%;margin:0 auto;text-align:center;}
+		#head_img img{width:150px;height:150px;}
+		.login_text{width:350px;height:52px;border:1px solid #C1C4CB;margin:0 auto;text-align:center;border-radius:5px;}
+		input {width:280px;height:40px;margin-top:2px;font-size: 20px;border:0px;}
+		#account{margin-top:60px;}
+		#password{margin-top:20px; margin-bottom:40px;}
+		.iconfont{font-size:25px;margin-left:0px;margin-right:8px;}
+		#sub_button{width:350px;height:50px;margin:0 auto;background:#3DCE3D;border-radius:5px;line-height:50px;font-size:20px;color:#fff;}
+		
+	</style>	
+</head>	
+<body>	
+	<div id="head_img">
+		<div id="return_page" onclick="close_frame()"><i class="iconfont icon-back_light"></i></div>
+		<img src="../image/logo.jpg" alt="" />
+		<div id="product_name">测试APP</div><br />
+		<div class="login_text" id="account"><i class="iconfont icon-my"></i><input type="text" name="account"/></div>
+		<div class="login_text" id="password"><i class="iconfont icon-command"></i><input type="password" name="password" /></div>
+		<div id="sub_button" onclick="return login()">登录</div>
+	</div>
+	
+</body>	
+</html>	
+<script type="text/javascript" src="../script/api.js"></script>
+<script>
+
+function login(){
+	var account = $api.byId('account').value;
+	var password = $api.byId('password').value;
+	if(account == null && password == null){
+		return false;
+	}else{
+
+		api.ajax({
+		    url: 'http://192.168.1.101:3101/upLoad',
+		    method: 'post',
+		    data: {
+		        values: {
+		            account : 'account',
+		            password : 'password'
+		        },
+		        files: {//文件
+		            file: ''
+		        }
+		    }}, function(ret, err) {
+			    if (ret) {
+			        api.alert({ msg: JSON.stringify(ret) });
+			    } else {
+			        api.alert({ msg: JSON.stringify(err) });
+			    }
+		});
+	}
+}
+
+function close_frame(){
+
+	api.closeWin({
+    	name : 'login',
+    });
+}
+
+
+</script>
